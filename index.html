@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no"
+    />
+    <title>人名生成器</title>
+    <!-- 主样式 -->
+    <link rel="stylesheet" href="./index.css" />
+    <!-- axios -->
+    <script src="/plugIn/axios.js"></script>
+    <!-- Vue 3 -->
+    <script src="/plugIn/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="generator">
+      <div class="head">
+        <div class="option">
+          <div
+            class="select"
+            v-for="(item, index) in options"
+            :key="index"
+            :class="{
+            active:active_index===index
+          }"
+            @click="handleSelect(index)"
+          >
+            {{item.label}}
+          </div>
+        </div>
+        <input
+          type="number"
+          v-model="count"
+          placeholder="请输入想要生成的个数"
+        />
+        <div class="progress" v-if="loading||finish">
+          已生成{{data.length}}/{{count||0}}
+        </div>
+
+        <div class="btns">
+          <div class="btn" @click="handleStart" v-if="!loading && count>0">
+            {{data.length?'重新生成':'点击生成'}}
+          </div>
+          <div class="btn" @click="handleStop" v-if="loading">停止生成</div>
+          <div class="btn" @click="handleExport" v-if="finish">导出</div>
+        </div>
+      </div>
+
+      <div class="content" ref="contentRef">
+        <div class="name" v-for="(item, index) in data" :key="index">
+          {{item}}
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script type="module" src="./main.js"></script>
+</html>
